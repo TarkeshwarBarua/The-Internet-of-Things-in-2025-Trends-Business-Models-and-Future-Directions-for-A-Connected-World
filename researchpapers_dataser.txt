@@ -1,0 +1,40 @@
+# This code simulates an IoT sensor that records temperature and humidity data every few seconds and saves it to a CSV file. #This is a fundamental task for any project involving IoT data.
+
+import csv
+import random
+import time
+from datetime import datetime
+
+# Define the file to store sensor data
+filename = "sensor_data.csv"
+header = ["timestamp", "temperature_celsius", "humidity_percent"]
+
+# Open the CSV file and write the header
+with open(filename, "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(header)
+
+print(f"Generating simulated sensor data and writing to {filename}...")
+
+# Simulate data generation for 1 minute
+end_time = time.time() + 60
+while time.time() < end_time:
+    # Generate random sensor values
+    temperature = round(random.uniform(20.0, 30.0), 2)
+    humidity = round(random.uniform(30.0, 60.0), 2)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Create a new data row
+    data_row = [timestamp, temperature, humidity]
+
+    # Append the data to the CSV file
+    with open(filename, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(data_row)
+
+    print(f"Recorded data: {data_row}")
+
+    # Wait for a few seconds before the next reading
+    time.sleep(5)
+
+print("\nData simulation complete.")
