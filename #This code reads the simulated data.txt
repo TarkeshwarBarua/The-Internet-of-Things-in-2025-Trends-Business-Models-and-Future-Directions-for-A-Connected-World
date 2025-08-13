@@ -1,0 +1,39 @@
+#This code reads the simulated data, performs a simple analysis, and demonstrates a basic form of "smart" action based on the data. It calculates the average temperature and triggers a simulated alert if the temperature exceeds a certain threshold.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the sensor data from the CSV file
+df = pd.read_csv("sensor_data.csv")
+
+# Perform a basic data analysis
+average_temp = df["temperature_celsius"].mean()
+print(f"The average temperature recorded was: {average_temp:.2f}°C")
+
+# Check for a "smart" condition and trigger a simulated action
+temperature_threshold = 25.0
+hot_readings = df[df["temperature_celsius"] > temperature_threshold]
+
+if not hot_readings.empty:
+    print("\n[ALERT] One or more temperature readings exceeded the threshold!")
+    print(f"Threshold: > {temperature_threshold}°C")
+    print(hot_readings)
+    # This is where you might integrate with a physical system,
+    # for example, by sending a signal to an IoT device to turn on a fan or AC.
+    print("\nSimulated action: Sending a command to turn on the fan.")
+else:
+    print("\nAll temperatures were within the normal range.")
+
+
+# Visualize the data to find trends
+plt.figure(figsize=(10, 6))
+plt.plot(df["timestamp"], df["temperature_celsius"], label="Temperature (°C)")
+plt.plot(df["timestamp"], df["humidity_percent"], label="Humidity (%)")
+plt.xlabel("Timestamp")
+plt.ylabel("Value")
+plt.title("Simulated IoT Sensor Data Over Time")
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
